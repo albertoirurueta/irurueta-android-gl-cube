@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.irurueta.android.gl.cube.test">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher_test"
+        android:label="cube test">
+
+        <activity android:name="com.irurueta.android.gl.cube.test.CubeTextureViewActivity"
+            android:label="CubeTextureView" />
+    </application>
+</manifest>
