@@ -44,7 +44,7 @@ afterEvaluate {
                 // Mostly self-explanatory metadata
                 pom {
                     name = PUBLISH_ARTIFACT_ID
-                    description = 'GL utils'
+                    description = 'GL cube'
                     url = 'https://github.com/albertoirurueta/irurueta-android-gl-cube'
                     licenses {
                         license {
