@@ -20,7 +20,7 @@ import android.graphics.Color
 import android.opengl.GLES20
 import androidx.test.core.app.ApplicationProvider
 import com.irurueta.algebra.Matrix
-import com.irurueta.android.glutils.*
+import com.irurueta.android.glutils.CameraToDisplayOrientation
 import com.irurueta.geometry.*
 import io.mockk.*
 import org.junit.Assert.*
@@ -40,6 +40,141 @@ class CubeRendererTest {
         val renderer = CubeRenderer(context)
 
         assertSame(context, renderer.context)
+        assertNull(renderer.onSurfaceChangedListener)
+        assertNull(renderer.getPrivateProperty("converter"))
+
+        val modelViewProjectionMatrix: FloatArray? =
+            renderer.getPrivateProperty("modelViewProjectionMatrix")
+        requireNotNull(modelViewProjectionMatrix)
+        assertEquals(16, modelViewProjectionMatrix.size)
+
+        val modelViewMatrix: FloatArray? = renderer.getPrivateProperty("modelViewMatrix")
+        requireNotNull(modelViewMatrix)
+        assertEquals(16, modelViewMatrix.size)
+
+        assertNull(renderer.getPrivateProperty("cameraModelViewProjectionMatrix"))
+
+        val normalMatrix: FloatArray? = renderer.getPrivateProperty("normalMatrix")
+        requireNotNull(normalMatrix)
+        assertEquals(9, normalMatrix.size)
+
+        val cubeVerticesCoordinatesData: FloatArray? =
+            renderer.getPrivateProperty("cubeVerticesCoordinatesData")
+        requireNotNull(cubeVerticesCoordinatesData)
+        assertEquals(24, cubeVerticesCoordinatesData.size)
+
+        val cubeIndices: IntArray? = renderer.getPrivateProperty("cubeIndices")
+        requireNotNull(cubeIndices)
+        assertEquals(36, cubeIndices.size)
+
+        val uniforms: IntArray? = renderer.getPrivateProperty("uniforms")
+        requireNotNull(uniforms)
+        assertEquals(6, uniforms.size)
+
+        val program: Int? = renderer.getPrivateProperty("program")
+        requireNotNull(program)
+        assertEquals(0, program)
+
+        val vertexPositionAttribute: Int? = renderer.getPrivateProperty("vertexPositionAttribute")
+        requireNotNull(vertexPositionAttribute)
+        assertEquals(0, vertexPositionAttribute)
+
+        val vertexNormalAttribute: Int? = renderer.getPrivateProperty("vertexNormalAttribute")
+        requireNotNull(vertexNormalAttribute)
+        assertEquals(0, vertexNormalAttribute)
+
+        val vertexColor3Attribute: Int? = renderer.getPrivateProperty("vertexColor3Attribute")
+        requireNotNull(vertexColor3Attribute)
+        assertEquals(0, vertexColor3Attribute)
+
+        val vertexColor4Attribute: Int? = renderer.getPrivateProperty("vertexColor4Attribute")
+        requireNotNull(vertexColor4Attribute)
+        assertEquals(0, vertexColor4Attribute)
+
+        val vertexPositionsBufferId: Int? = renderer.getPrivateProperty("vertexPositionsBufferId")
+        requireNotNull(vertexPositionsBufferId)
+        assertEquals(0, vertexPositionsBufferId)
+
+        val vertexNormalsBufferId: Int? = renderer.getPrivateProperty("vertexNormalsBufferId")
+        requireNotNull(vertexNormalsBufferId)
+        assertEquals(0, vertexNormalsBufferId)
+
+        val vertexColorsBufferId: Int? = renderer.getPrivateProperty("vertexColorsBufferId")
+        requireNotNull(vertexColorsBufferId)
+        assertEquals(0, vertexColorsBufferId)
+
+        val vertexIndicesBufferId: Int? = renderer.getPrivateProperty("vertexIndicesBufferId")
+        requireNotNull(vertexIndicesBufferId)
+        assertEquals(0, vertexIndicesBufferId)
+
+        val hasNormals: Int? = renderer.getPrivateProperty("hasNormals")
+        requireNotNull(hasNormals)
+        assertEquals(0, hasNormals)
+
+        val hasColors: Int? = renderer.getPrivateProperty("hasColors")
+        requireNotNull(hasColors)
+        assertEquals(3, hasColors)
+
+        val rendererDestroyed: Boolean? = renderer.getPrivateProperty("rendererDestroyed")
+        requireNotNull(rendererDestroyed)
+        assertFalse(rendererDestroyed)
+
+        val cubeRotationMatrix: Matrix? = renderer.getPrivateProperty("cubeRotationMatrix")
+        requireNotNull(cubeRotationMatrix)
+        assertEquals(cubeRotationMatrix, Matrix.identity(3, 3))
+
+        assertEquals(Color.rgb(127, 127, 127), renderer.diffuseColor)
+        val cubeColors: IntArray? = renderer.getPrivateProperty("cubeColors")
+        requireNotNull(cubeColors)
+        assertTrue(
+            cubeColors.contentEquals(
+                intArrayOf(
+                    Color.rgb(0, 255, 0),
+                    Color.rgb(255, 127, 0),
+                    Color.rgb(255, 0, 0),
+                    Color.rgb(255, 127, 0),
+                    Color.rgb(255, 255, 0),
+                    Color.rgb(0, 0, 255),
+                    Color.rgb(0, 127, 255),
+                    Color.rgb(255, 0, 255)
+                )
+            )
+        )
+        assertEquals(CameraToDisplayOrientation.ORIENTATION_UNKNOWN, renderer.orientation)
+        assertNull(renderer.width)
+        assertNull(renderer.height)
+        assertEquals(CubeRenderer.DEFAULT_CLEAR_COLOR, renderer.clearColor)
+        assertEquals(CubeRenderer.DEFAULT_CUBE_SIZE, renderer.cubeSize)
+        assertNotNull(renderer.cubePosition)
+        assertEquals(
+            renderer.cubePosition,
+            Point3D.create(
+                CoordinatesType.INHOMOGENEOUS_COORDINATES,
+                doubleArrayOf(0.0, 0.0, CubeRenderer.DEFAULT_CUBE_DISTANCE)
+            )
+        )
+        assertNotNull(renderer.cubeRotation)
+        assertEquals(renderer.cubeRotation, Quaternion())
+        assertNull(renderer.nearPlane)
+        assertNull(renderer.farPlane)
+        assertNull(renderer.camera)
+        assertNull(renderer.viewCamera)
+        assertNull(renderer.cameraIntrinsicParameters)
+        assertNull(renderer.cameraCenter)
+        assertNull(renderer.cameraRotation)
+        assertNull(renderer.viewCameraIntrinsicParameters)
+        assertNull(renderer.viewCameraCenter)
+        assertNull(renderer.viewCameraRotation)
+    }
+
+    @Test
+    fun constructor_whenOnSurfaceChangedListenerProvided_setsDefaultValues() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val onSurfaceChangedListener = mockk<CubeTextureView.OnSurfaceChangedListener>()
+        val renderer = CubeRenderer(context, onSurfaceChangedListener)
+
+        assertSame(context, renderer.context)
+        assertSame(onSurfaceChangedListener, renderer.onSurfaceChangedListener)
         assertNull(renderer.getPrivateProperty("converter"))
 
         val modelViewProjectionMatrix: FloatArray? =
@@ -1388,7 +1523,7 @@ class CubeRendererTest {
     }
 
     @Test
-    fun onSurfaceChanged_initializesConverter() {
+    fun onSurfaceChanged_whenNoListenerAvailable_initializesConverter() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val renderer = CubeRenderer(context)
 
@@ -1407,6 +1542,31 @@ class CubeRendererTest {
         assertEquals(HEIGHT, renderer.height)
 
         verify(exactly = 1) { GLES20.glViewport(0, 0, WIDTH, HEIGHT) }
+    }
+
+    @Test
+    fun onSurfaceChanged_whenListenerAvailable_initializesConverter() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val onSurfaceChangedListener =
+            mockk<CubeTextureView.OnSurfaceChangedListener>(relaxUnitFun = true)
+        val renderer = CubeRenderer(context, onSurfaceChangedListener)
+
+        assertNull(renderer.getPrivateProperty("converter"))
+        assertNull(renderer.width)
+        assertNull(renderer.height)
+
+        mockkStatic(GLES20::class)
+        justRun { GLES20.glViewport(any(), any(), any(), any()) }
+
+        val gl = mockk<GL10>()
+        renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
+
+        assertNotNull(renderer.getPrivateProperty("converter"))
+        assertEquals(WIDTH, renderer.width)
+        assertEquals(HEIGHT, renderer.height)
+
+        verify(exactly = 1) { GLES20.glViewport(0, 0, WIDTH, HEIGHT) }
+        verify(exactly = 1) { onSurfaceChangedListener.onSurfaceChanged(WIDTH, HEIGHT) }
     }
 
     @Test

@@ -37,6 +37,15 @@ class CubeTextureView @JvmOverloads constructor(
     private var cubeRenderer: CubeRenderer = CubeRenderer(context)
 
     /**
+     * Gets or sets listener being notified when GL surface is created and changes its size.
+     */
+    var onSurfaceChangedListener
+        get() = cubeRenderer.onSurfaceChangedListener
+        set(value) {
+            cubeRenderer.onSurfaceChangedListener = value
+        }
+
+    /**
      * Diffuse color to be used for lighting purposes.
      * Setter requests to render a frame.
      * This is only taken into account if normals are used.
@@ -153,6 +162,7 @@ class CubeTextureView @JvmOverloads constructor(
     var camera
         get() = cubeRenderer.camera
         @Throws(CameraException::class)
+        @Synchronized
         set(value) {
             cubeRenderer.camera = value
             requestRender()
@@ -172,6 +182,7 @@ class CubeTextureView @JvmOverloads constructor(
     var viewCamera
         get() = cubeRenderer.viewCamera
         @Throws(IllegalArgumentException::class, CameraException::class)
+        @Synchronized
         set(value) {
             cubeRenderer.viewCamera = value
             requestRender()
@@ -185,6 +196,7 @@ class CubeTextureView @JvmOverloads constructor(
     var cameraIntrinsicParameters
         get() = cubeRenderer.cameraIntrinsicParameters
         @Throws(IllegalArgumentException::class)
+        @Synchronized
         set(value) {
             cubeRenderer.cameraIntrinsicParameters = value
             requestRender()
@@ -198,6 +210,7 @@ class CubeTextureView @JvmOverloads constructor(
     var cameraCenter
         get() = cubeRenderer.cameraCenter
         @Throws(IllegalArgumentException::class)
+        @Synchronized
         set(value) {
             cubeRenderer.cameraCenter = value
             requestRender()
@@ -211,6 +224,7 @@ class CubeTextureView @JvmOverloads constructor(
     var cameraRotation
         get() = cubeRenderer.cameraRotation
         @Throws(IllegalArgumentException::class)
+        @Synchronized
         set(value) {
             cubeRenderer.cameraRotation = value
             requestRender()
@@ -225,6 +239,7 @@ class CubeTextureView @JvmOverloads constructor(
     var viewCameraIntrinsicParameters
         get() = cubeRenderer.viewCameraIntrinsicParameters
         @Throws(IllegalStateException::class, IllegalArgumentException::class)
+        @Synchronized
         set(value) {
             cubeRenderer.viewCameraIntrinsicParameters = value
             requestRender()
@@ -239,6 +254,7 @@ class CubeTextureView @JvmOverloads constructor(
     var viewCameraCenter
         get() = cubeRenderer.viewCameraCenter
         @Throws(IllegalStateException::class, IllegalArgumentException::class)
+        @Synchronized
         set(value) {
             cubeRenderer.viewCameraCenter = value
             requestRender()
@@ -253,6 +269,7 @@ class CubeTextureView @JvmOverloads constructor(
     var viewCameraRotation
         get() = cubeRenderer.viewCameraRotation
         @Throws(IllegalStateException::class, IllegalArgumentException::class)
+        @Synchronized
         set(value) {
             cubeRenderer.viewCameraRotation = value
             requestRender()
@@ -270,6 +287,7 @@ class CubeTextureView @JvmOverloads constructor(
      * @throws CameraException if there are numerical instabilities in provided camera.
      */
     @Throws(CameraException::class)
+    @Synchronized
     fun setValues(nearPlane: Float, farPlane: Float, camera: PinholeCamera) {
         cubeRenderer.setValues(nearPlane, farPlane, camera)
         requestRender()
@@ -288,11 +306,26 @@ class CubeTextureView @JvmOverloads constructor(
         // create an OpenGL ES 2.0 context
         setEGLContextClientVersion(2)
         // enforce transparent background
+        isOpaque = false
         setEGLConfigChooser(8, 8, 8, 8, 16, 0)
 
         // render only when new camera position is set.
-        renderMode = RENDERMODE_WHEN_DIRTY
-
         setRenderer(cubeRenderer)
+
+        renderMode = RENDERMODE_WHEN_DIRTY
+    }
+
+    /**
+     * Listener to notify when surface size changes.
+     * This can be used to initialize this view once the underlying OpenGL surface is initialized.
+     */
+    interface OnSurfaceChangedListener {
+        /**
+         * Called when surface size changes.
+         *
+         * @param width width of surface expressed in pixels.
+         * @param height height of surface expressed in pixels.
+         */
+        fun onSurfaceChanged(width: Int, height: Int)
     }
 }

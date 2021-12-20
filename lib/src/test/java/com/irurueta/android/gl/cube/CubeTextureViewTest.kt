@@ -23,6 +23,7 @@ class CubeTextureViewTest {
         val view = CubeTextureView(context)
 
         assertNotNull(view.getPrivateProperty("cubeRenderer"))
+        assertNull(view.onSurfaceChangedListener)
         assertEquals(Color.rgb(127, 127, 127), view.diffuseColor)
         assertEquals(CameraToDisplayOrientation.ORIENTATION_UNKNOWN, view.orientation)
         assertEquals(CubeRenderer.DEFAULT_CLEAR_COLOR, view.clearColor)
@@ -47,6 +48,22 @@ class CubeTextureViewTest {
         assertNull(view.viewCameraIntrinsicParameters)
         assertNull(view.viewCameraCenter)
         assertNull(view.viewCameraRotation)
+    }
+
+    @Test
+    fun onSurfaceChangedListener_setsExpectedValue() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val view = CubeTextureView(context)
+
+        // check default value
+        assertNull(view.onSurfaceChangedListener)
+
+        // set new value
+        val onSurfaceChangedListener = mockk<CubeTextureView.OnSurfaceChangedListener>()
+        view.onSurfaceChangedListener = onSurfaceChangedListener
+
+        // check
+        assertSame(onSurfaceChangedListener, view.onSurfaceChangedListener)
     }
 
     @Test

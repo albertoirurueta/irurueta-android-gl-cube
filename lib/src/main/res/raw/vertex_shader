@@ -1,0 +1,36 @@
+attribute vec4 aPosition;
+attribute vec3 aNormal;
+attribute vec3 aColor3;
+attribute vec4 aColor4;
+
+varying lowp vec4 vColorVarying;
+
+uniform mat4 uModelViewProjectionMatrix;
+uniform mat3 uNormalMatrix;
+
+uniform int uHasNormals;
+uniform int uHasColors;
+uniform vec3 uDiffuseColor;
+
+void main(){
+	vec4 diffuseColor;
+	if(uHasColors == 3){
+		diffuseColor = vec4(aColor3.r, aColor3.g, aColor3.b, 1.0);
+	}else if(uHasColors == 4){
+		diffuseColor = aColor4;
+	}else{
+		diffuseColor = vec4(uDiffuseColor.r, uDiffuseColor.g, uDiffuseColor.b, 1.0);
+	}
+
+	if(uHasNormals != 0){
+		vec3 eyeNormal = normalize(uNormalMatrix * aNormal);
+		vec3 lightPosition = vec3(0.0, 0.0, 1.0);
+
+		float nDotVP = max(0.0, dot(eyeNormal, normalize(lightPosition)));
+		vColorVarying = diffuseColor * nDotVP;
+	}else{
+		vColorVarying = diffuseColor;
+	}
+
+	gl_Position = uModelViewProjectionMatrix * aPosition;
+}

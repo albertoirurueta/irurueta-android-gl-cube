@@ -39,7 +39,10 @@ import javax.microedition.khronos.opengles.GL10
 /**
  * Renderer class in charge of rendering a cube.
  */
-class CubeRenderer(val context: Context) : GLSurfaceView.Renderer {
+class CubeRenderer(
+    val context: Context,
+    var onSurfaceChangedListener: CubeTextureView.OnSurfaceChangedListener? = null
+) : GLSurfaceView.Renderer {
 
     /**
      * Converts cameras to matrices used by OpenGL.
@@ -505,6 +508,8 @@ class CubeRenderer(val context: Context) : GLSurfaceView.Renderer {
         converter.isModelViewProjectionMatrixComputationEnabled = true
         this.converter = converter
         setupCube()
+
+        onSurfaceChangedListener?.onSurfaceChanged(width, height)
     }
 
     /**

@@ -21,6 +21,13 @@ A view to display a 3D cube with transparent background
 
 [API Documentation](http://albertoirurueta.github.io/irurueta-android-gl-cube)
 
+## Overview
+
+This library contains CubeTextureView as an example of OpenGL ES 2.0 with support for background 
+transparency and usage of com.irurueta:irurueta-android-glutils to compute camera matrices.
+
+![Demo](docs/video.gif)
+
 ## Usage
 
 Add the following dependency to your project:
