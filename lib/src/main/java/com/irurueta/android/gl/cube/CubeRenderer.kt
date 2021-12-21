@@ -26,7 +26,6 @@ import androidx.core.graphics.red
 import com.irurueta.algebra.Matrix
 import com.irurueta.android.glutils.CameraConverter
 import com.irurueta.android.glutils.CameraToDisplayOrientation
-import com.irurueta.android.glutils.R
 import com.irurueta.geometry.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
