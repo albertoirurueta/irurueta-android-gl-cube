@@ -6,17 +6,18 @@ plugins {
     id 'org.jetbrains.dokka'
     id 'jacoco'
     id 'org.sonarqube'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.irurueta.android.gl.cube"
         minSdk 21
-        targetSdk 30
+        targetSdk 33
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
