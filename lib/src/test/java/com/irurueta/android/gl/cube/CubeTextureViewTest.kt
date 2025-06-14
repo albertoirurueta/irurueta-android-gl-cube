@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2021 Alberto Irurueta Carro (alberto@irurueta.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.irurueta.android.gl.cube
 
 import android.content.Context
@@ -5,10 +21,13 @@ import android.graphics.Color
 import androidx.test.core.app.ApplicationProvider
 import com.irurueta.android.glutils.*
 import com.irurueta.geometry.*
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit4.MockKRule
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
 import org.junit.Assert.*
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -16,6 +35,12 @@ import javax.microedition.khronos.opengles.GL10
 
 @RunWith(RobolectricTestRunner::class)
 class CubeTextureViewTest {
+
+    @get:Rule
+    val mockkRule = MockKRule(this)
+
+    @MockK
+    private lateinit var gl: GL10
 
     @Test
     fun constructor_setsDefaultValues() {
@@ -134,7 +159,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -337,7 +361,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -382,7 +405,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -428,7 +450,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new values
@@ -475,7 +496,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -521,7 +541,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -572,7 +591,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -620,7 +638,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -668,7 +685,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -717,7 +733,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -771,7 +786,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -825,7 +839,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -879,7 +892,6 @@ class CubeTextureViewTest {
         val renderer: CubeRenderer? = view.getPrivateProperty("cubeRenderer")
         requireNotNull(renderer)
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value

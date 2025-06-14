@@ -1,9 +1,26 @@
+/*
+ * Copyright (C) 2021 Alberto Irurueta Carro (alberto@irurueta.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.irurueta.android.gl.cube.test
 
 import android.graphics.Color
+import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.RequiresDevice
-import androidx.test.rule.ActivityTestRule
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement
+//import androidx.test.filters.RequiresDevice
 import com.irurueta.android.glutils.CameraToDisplayOrientation
 import com.irurueta.android.glutils.OpenGlToCameraHelper
 import com.irurueta.android.gl.cube.CubeRenderer
@@ -16,20 +33,22 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RequiresDevice
+//@RequiresDevice
 @RunWith(AndroidJUnit4::class)
 class CubeTextureViewTest {
 
     @get:Rule
-    val activityRule = ActivityTestRule(CubeTextureViewActivity::class.java, true)
+    val rule = activityScenarioRule<CubeTextureViewActivity>()
 
     private var activity: CubeTextureViewActivity? = null
     private var view: CubeTextureView? = null
 
     @Before
     fun setUp() {
-        activity = activityRule.activity
-        view = activity?.findViewById(R.id.cube_texture_view_test)
+        rule.scenario.onActivity { activity ->
+            this.activity = activity
+            view = activity.findViewById(R.id.cube_texture_view_test)
+        }
     }
 
     @After
@@ -41,7 +60,7 @@ class CubeTextureViewTest {
     @Test
     fun constructor_whenNotAttached_setsDefaultValues() {
         val activity = this.activity ?: return fail()
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             val view = CubeTextureView(activity)
 
             assertEquals(Color.rgb(127, 127, 127), view.diffuseColor)
@@ -115,7 +134,7 @@ class CubeTextureViewTest {
 
         // set diffuse color
         val diffuseColor = Color.rgb(50, 50, 50)
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.diffuseColor = diffuseColor
         }
 
@@ -138,7 +157,7 @@ class CubeTextureViewTest {
 
         // set cube size
         val cubeSize = 0.5f * CubeRenderer.DEFAULT_CUBE_SIZE
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cubeSize = cubeSize
         }
 
@@ -146,7 +165,7 @@ class CubeTextureViewTest {
         assertEquals(cubeSize, view.cubeSize)
 
         // set orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_0_DEGREES
         }
 
@@ -155,7 +174,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         val viewCamera = createCamera(view)
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.viewCamera = viewCamera
         }
 
@@ -166,7 +185,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         // set back to unknown orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_UNKNOWN
         }
 
@@ -191,7 +210,7 @@ class CubeTextureViewTest {
 
         // set cube size
         val cubeSize = 0.5f * CubeRenderer.DEFAULT_CUBE_SIZE
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cubeSize = cubeSize
         }
 
@@ -199,7 +218,7 @@ class CubeTextureViewTest {
         assertEquals(cubeSize, view.cubeSize)
 
         // set orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_90_DEGREES
         }
 
@@ -208,7 +227,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         val viewCamera = createCamera(view)
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.viewCamera = viewCamera
         }
 
@@ -219,7 +238,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         // set back to unknown orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_UNKNOWN
         }
 
@@ -244,7 +263,7 @@ class CubeTextureViewTest {
 
         // set cube size
         val cubeSize = 0.5f * CubeRenderer.DEFAULT_CUBE_SIZE
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cubeSize = cubeSize
         }
 
@@ -252,7 +271,7 @@ class CubeTextureViewTest {
         assertEquals(cubeSize, view.cubeSize)
 
         // set orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_180_DEGREES
         }
 
@@ -261,7 +280,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         val viewCamera = createCamera(view)
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.viewCamera = viewCamera
         }
 
@@ -272,7 +291,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         // set back to unknown orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_UNKNOWN
         }
 
@@ -297,7 +316,7 @@ class CubeTextureViewTest {
 
         // set cube size
         val cubeSize = 0.5f * CubeRenderer.DEFAULT_CUBE_SIZE
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cubeSize = cubeSize
         }
 
@@ -305,7 +324,7 @@ class CubeTextureViewTest {
         assertEquals(cubeSize, view.cubeSize)
 
         // set orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_270_DEGREES
         }
 
@@ -314,7 +333,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         val viewCamera = createCamera(view)
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.viewCamera = viewCamera
         }
 
@@ -325,7 +344,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         // set back to unknown orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_UNKNOWN
         }
 
@@ -350,7 +369,7 @@ class CubeTextureViewTest {
 
         // set cube size
         val cubeSize = 0.5f * CubeRenderer.DEFAULT_CUBE_SIZE
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cubeSize = cubeSize
         }
 
@@ -358,7 +377,7 @@ class CubeTextureViewTest {
         assertEquals(cubeSize, view.cubeSize)
 
         // set clear color
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.clearColor = Color.WHITE
         }
 
@@ -381,7 +400,7 @@ class CubeTextureViewTest {
 
         // set cube size
         val cubeSize = 0.5f * CubeRenderer.DEFAULT_CUBE_SIZE
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cubeSize = cubeSize
         }
 
@@ -412,7 +431,7 @@ class CubeTextureViewTest {
         // set cube position
         val cubePosition =
             InhomogeneousPoint3D(-0.5, -0.5, 2.0 * CubeRenderer.DEFAULT_CUBE_DISTANCE)
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cubePosition = cubePosition
         }
 
@@ -436,7 +455,7 @@ class CubeTextureViewTest {
 
         // set cube size
         val cubeSize = 0.5f * CubeRenderer.DEFAULT_CUBE_SIZE
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cubeSize = cubeSize
         }
 
@@ -446,7 +465,7 @@ class CubeTextureViewTest {
         // set cube rotation
         val cubeRotation =
             Quaternion(Math.toRadians(20.0), Math.toRadians(20.0), Math.toRadians(20.0))
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cubeRotation = cubeRotation
         }
 
@@ -469,7 +488,7 @@ class CubeTextureViewTest {
 
         // set near plane
         val nearPlane = 2.0f * CubeRenderer.DEFAULT_NEAR_PLANE
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.nearPlane = nearPlane
         }
 
@@ -492,7 +511,7 @@ class CubeTextureViewTest {
 
         // set far plane
         val farPlane = 2.0f * CubeRenderer.DEFAULT_FAR_PLANE
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.farPlane = farPlane
         }
 
@@ -517,7 +536,7 @@ class CubeTextureViewTest {
         // set near far planes
         val nearPlane = 2.0f * CubeRenderer.DEFAULT_NEAR_PLANE
         val farPlane = 2.0f * CubeRenderer.DEFAULT_FAR_PLANE
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.setNearFarPlanes(nearPlane, farPlane)
         }
 
@@ -542,7 +561,7 @@ class CubeTextureViewTest {
             view.height
         )
         val camera = PinholeCamera(intrinsics, Rotation3D.create(), Point3D.create())
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.camera = camera
         }
 
@@ -565,7 +584,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         // set orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_0_DEGREES
         }
 
@@ -583,7 +602,7 @@ class CubeTextureViewTest {
             view.height
         )
         val camera = PinholeCamera(intrinsics, Rotation3D.create(), Point3D.create())
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.viewCamera = camera
         }
 
@@ -606,7 +625,7 @@ class CubeTextureViewTest {
             view.width,
             view.height
         )
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cameraIntrinsicParameters = intrinsics
         }
 
@@ -623,7 +642,7 @@ class CubeTextureViewTest {
 
         // set camera center
         val center = Point3D.create()
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cameraCenter = center
         }
 
@@ -640,7 +659,7 @@ class CubeTextureViewTest {
 
         // set camera rotation
         val rotation = Rotation3D.create()
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.cameraRotation = rotation
         }
 
@@ -663,7 +682,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         // set orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_0_DEGREES
         }
 
@@ -680,7 +699,7 @@ class CubeTextureViewTest {
             view.width,
             view.height
         )
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.viewCameraIntrinsicParameters = intrinsics
         }
 
@@ -704,7 +723,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         // set orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_0_DEGREES
         }
 
@@ -716,7 +735,7 @@ class CubeTextureViewTest {
 
         // set view camera center
         val center = Point3D.create()
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.viewCameraCenter = center
         }
 
@@ -740,7 +759,7 @@ class CubeTextureViewTest {
         Thread.sleep(SLEEP)
 
         // set orientation
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.orientation = CameraToDisplayOrientation.ORIENTATION_0_DEGREES
         }
 
@@ -752,7 +771,7 @@ class CubeTextureViewTest {
 
         // set view camera rotation
         val rotation = Rotation3D.create()
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.viewCameraRotation = rotation
         }
     }
@@ -774,7 +793,7 @@ class CubeTextureViewTest {
         val nearPlane = 2.0f * CubeRenderer.DEFAULT_NEAR_PLANE
         val farPlane = 2.0f * CubeRenderer.DEFAULT_FAR_PLANE
         val camera = PinholeCamera(intrinsics, Rotation3D.create(), Point3D.create())
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.setValues(nearPlane, farPlane, camera)
         }
 
@@ -786,7 +805,7 @@ class CubeTextureViewTest {
 
     private fun initializeCamera(view: CubeTextureView) {
         val camera = createCamera(view)
-        activityRule.runOnUiThread {
+        UiThreadStatement.runOnUiThread {
             view.camera = camera
         }
 

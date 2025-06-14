@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.irurueta.android.gl.cube
 
 import android.content.Context
@@ -23,7 +24,11 @@ import com.irurueta.algebra.Matrix
 import com.irurueta.android.glutils.CameraToDisplayOrientation
 import com.irurueta.geometry.*
 import io.mockk.*
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit4.MockKRule
+import org.junit.After
 import org.junit.Assert.*
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -33,6 +38,18 @@ import javax.microedition.khronos.opengles.GL10
 
 @RunWith(RobolectricTestRunner::class)
 class CubeRendererTest {
+
+    @get:Rule
+    val mockkRule = MockKRule(this)
+
+    @MockK
+    private lateinit var gl: GL10
+
+    @After
+    fun afterTest() {
+        clearAllMocks()
+        unmockkAll()
+    }
 
     @Test
     fun constructor_setsDefaultValues() {
@@ -339,7 +356,6 @@ class CubeRendererTest {
         assertNull(renderer.height)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // check
@@ -363,7 +379,6 @@ class CubeRendererTest {
         assertNull(renderer.width)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // check
@@ -379,7 +394,6 @@ class CubeRendererTest {
         assertNull(renderer.height)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // check
@@ -502,7 +516,6 @@ class CubeRendererTest {
         assertNull(renderer.nearPlane)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set null value
@@ -518,7 +531,6 @@ class CubeRendererTest {
         assertNull(renderer.nearPlane)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -561,7 +573,6 @@ class CubeRendererTest {
         assertNull(renderer.farPlane)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set null value
@@ -577,7 +588,6 @@ class CubeRendererTest {
         assertNull(renderer.farPlane)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -609,7 +619,6 @@ class CubeRendererTest {
         assertNull(renderer.farPlane)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -654,7 +663,6 @@ class CubeRendererTest {
         assertNull(renderer.camera)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -678,7 +686,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraRotation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -731,7 +738,6 @@ class CubeRendererTest {
         assertEquals(CameraToDisplayOrientation.ORIENTATION_UNKNOWN, renderer.orientation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set value
@@ -751,7 +757,6 @@ class CubeRendererTest {
         assertEquals(CameraToDisplayOrientation.ORIENTATION_UNKNOWN, renderer.orientation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -772,7 +777,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraRotation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -799,7 +803,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraRotation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -857,7 +860,6 @@ class CubeRendererTest {
         assertNull(renderer.cameraIntrinsicParameters)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -880,7 +882,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraRotation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -934,7 +935,6 @@ class CubeRendererTest {
         assertNull(renderer.cameraCenter)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -958,7 +958,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraRotation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -1012,7 +1011,6 @@ class CubeRendererTest {
         assertNull(renderer.cameraRotation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -1036,7 +1034,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraRotation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new value
@@ -1090,7 +1087,6 @@ class CubeRendererTest {
         assertEquals(CameraToDisplayOrientation.ORIENTATION_UNKNOWN, renderer.orientation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set value
@@ -1107,7 +1103,6 @@ class CubeRendererTest {
         assertEquals(CameraToDisplayOrientation.ORIENTATION_UNKNOWN, renderer.orientation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set value
@@ -1128,7 +1123,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraRotation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -1155,7 +1149,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraRotation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -1213,7 +1206,6 @@ class CubeRendererTest {
         assertEquals(CameraToDisplayOrientation.ORIENTATION_UNKNOWN, renderer.orientation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set value
@@ -1230,7 +1222,6 @@ class CubeRendererTest {
         assertEquals(CameraToDisplayOrientation.ORIENTATION_UNKNOWN, renderer.orientation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set value
@@ -1251,7 +1242,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraRotation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -1278,7 +1268,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCamera)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -1336,7 +1325,6 @@ class CubeRendererTest {
         assertEquals(CameraToDisplayOrientation.ORIENTATION_UNKNOWN, renderer.orientation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set value
@@ -1353,7 +1341,6 @@ class CubeRendererTest {
         assertEquals(CameraToDisplayOrientation.ORIENTATION_UNKNOWN, renderer.orientation)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set value
@@ -1374,7 +1361,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraCenter)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -1401,7 +1387,6 @@ class CubeRendererTest {
         assertNull(renderer.viewCameraCenter)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set known orientation
@@ -1456,7 +1441,6 @@ class CubeRendererTest {
         assertNull(renderer.height)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         // set new values
@@ -1515,7 +1499,6 @@ class CubeRendererTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val renderer = CubeRenderer(context)
 
-        val gl = mockk<GL10>()
         val config = mockk<EGLConfig>()
         renderer.onSurfaceCreated(gl, config)
 
@@ -1534,7 +1517,6 @@ class CubeRendererTest {
         mockkStatic(GLES20::class)
         justRun { GLES20.glViewport(any(), any(), any(), any()) }
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         assertNotNull(renderer.getPrivateProperty("converter"))
@@ -1558,7 +1540,6 @@ class CubeRendererTest {
         mockkStatic(GLES20::class)
         justRun { GLES20.glViewport(any(), any(), any(), any()) }
 
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         assertNotNull(renderer.getPrivateProperty("converter"))
@@ -1576,7 +1557,6 @@ class CubeRendererTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val renderer = CubeRenderer(context)
 
-        val gl = mockk<GL10>()
         renderer.onDrawFrame(gl)
 
         verify(exactly = 0) { GLES20.glClearColor(any(), any(), any(), any()) }
@@ -1591,7 +1571,6 @@ class CubeRendererTest {
         val renderer = CubeRenderer(context)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         renderer.onDrawFrame(gl)
@@ -1608,7 +1587,6 @@ class CubeRendererTest {
         val renderer = CubeRenderer(context)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         val camera = PinholeCamera()
@@ -1661,7 +1639,6 @@ class CubeRendererTest {
         assertEquals(0, hasNormals1)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         val camera = PinholeCamera()
@@ -1721,7 +1698,6 @@ class CubeRendererTest {
         assertEquals(3, hasColors1)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         val camera = PinholeCamera()
@@ -1781,7 +1757,6 @@ class CubeRendererTest {
         assertEquals(3, hasColors1)
 
         // initialize
-        val gl = mockk<GL10>()
         renderer.onSurfaceChanged(gl, WIDTH, HEIGHT)
 
         val camera = PinholeCamera()

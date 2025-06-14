@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.irurueta.android.gl.cube
 
 import android.content.Context
@@ -24,6 +25,10 @@ import com.irurueta.geometry.PinholeCamera
 /**
  * Draws a 3D cube using a [GLTextureView], which allows transparent background
  * and other view effects and animations.
+ *
+ * @property context context.
+ * @property attrs attributes.
+ * @property defStyleAttr default style attribute.
  */
 class CubeTextureView @JvmOverloads constructor(
     context: Context,
@@ -302,6 +307,10 @@ class CubeTextureView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
+    /**
+     * Called when surface is created.
+     * Initializes OpenGL ES 2.0 context.
+     */
     init {
         // create an OpenGL ES 2.0 context
         setEGLContextClientVersion(2)
@@ -312,7 +321,7 @@ class CubeTextureView @JvmOverloads constructor(
         // render only when new camera position is set.
         setRenderer(cubeRenderer)
 
-        renderMode = RENDERMODE_WHEN_DIRTY
+        renderMode = RENDER_MODE_WHEN_DIRTY
     }
 
     /**

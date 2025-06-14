@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.irurueta.android.gl.cube
 
 import android.content.Context
@@ -37,6 +38,9 @@ import javax.microedition.khronos.opengles.GL10
 
 /**
  * Renderer class in charge of rendering a cube.
+ *
+ * @property context context.
+ * @property onSurfaceChangedListener listener to notify when surface has changed.
  */
 class CubeRenderer(
     val context: Context,
@@ -253,6 +257,7 @@ class CubeRenderer(
     /**
      * Near plane value.
      * Any vertex nearer to the camera than this value is ignored and not drawn.
+     *
      * @throws IllegalArgumentException if provided value is null
      * @throws IllegalStateException if surface to draw has not been initialized.
      */
@@ -271,6 +276,7 @@ class CubeRenderer(
     /**
      * Far plane value.
      * Any vertex further from the camera than this value is ignored and not drawn.
+     *
      * @throws IllegalArgumentException if provided value is null
      * @throws IllegalStateException if surface to draw has not been initialized.
      */
@@ -683,7 +689,7 @@ class CubeRenderer(
             vertexColor3Attribute = GLES20.glGetAttribLocation(program, "aColor3")
             vertexColor4Attribute = GLES20.glGetAttribLocation(program, "aColor4")
             return true
-        } catch (t: Throwable) {
+        } catch (_: Throwable) {
             return false
         }
     }
@@ -741,6 +747,7 @@ class CubeRenderer(
 
     /**
      * Compiles shader contained into provided resource.
+     *
      * @param type [GLES20.GL_VERTEX_SHADER] or [GLES20.GL_FRAGMENT_SHADER].
      * @param resource id of a resource containing the shader code.
      * @return id of compiled shader.
