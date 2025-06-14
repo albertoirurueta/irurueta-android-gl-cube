@@ -33,5 +33,5 @@ transparency and usage of com.irurueta:irurueta-android-glutils to compute camer
 Add the following dependency to your project:
 
 ```
-implementation 'com.irurueta:irurueta-android-gl-cube:1.0.0'
+implementation 'com.irurueta:irurueta-android-gl-cube:1.1.0'
 ```
