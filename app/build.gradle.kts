@@ -17,8 +17,8 @@ android {
         applicationId = "com.irurueta.android.gl.cube.app"
         minSdk = 24
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.1.0"
+        versionCode = 3
+        versionName = "1.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -61,8 +61,8 @@ android {
 sonar {
     properties {
         property("sonar.scanner.skipJreProvisioning", true)
-        property("sonar.projectKey", "albertoirurueta_irurueta-android-gl-curl")
-        property("sonar.projectName", "irurueta-android-gl-curl-${project.name}")
+        property("sonar.projectKey", "albertoirurueta_irurueta-android-gl-cube")
+        property("sonar.projectName", "irurueta-android-gl-cube-${project.name}")
         property("sonar.organization", "albertoirurueta-github")
         property("sonar.host.url", "https://sonarcloud.io")
 
