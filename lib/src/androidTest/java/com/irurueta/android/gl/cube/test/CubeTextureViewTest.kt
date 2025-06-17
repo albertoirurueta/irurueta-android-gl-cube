@@ -20,7 +20,6 @@ import android.graphics.Color
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-//import androidx.test.filters.RequiresDevice
 import com.irurueta.android.glutils.CameraToDisplayOrientation
 import com.irurueta.android.glutils.OpenGlToCameraHelper
 import com.irurueta.android.gl.cube.CubeRenderer
@@ -33,7 +32,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-//@RequiresDevice
 @RunWith(AndroidJUnit4::class)
 class CubeTextureViewTest {
 
