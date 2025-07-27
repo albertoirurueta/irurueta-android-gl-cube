@@ -22,6 +22,10 @@ import android.opengl.GLES20
 import androidx.test.core.app.ApplicationProvider
 import com.irurueta.algebra.Matrix
 import com.irurueta.android.glutils.CameraToDisplayOrientation
+import com.irurueta.android.testutils.callPrivateFunc
+import com.irurueta.android.testutils.callPrivateFuncWithResult
+import com.irurueta.android.testutils.getPrivateProperty
+import com.irurueta.android.testutils.setPrivateProperty
 import com.irurueta.geometry.*
 import io.mockk.*
 import io.mockk.impl.annotations.MockK

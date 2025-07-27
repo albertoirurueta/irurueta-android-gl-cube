@@ -20,6 +20,9 @@ import android.content.Context
 import android.graphics.Color
 import androidx.test.core.app.ApplicationProvider
 import com.irurueta.android.glutils.*
+import com.irurueta.android.testutils.callPrivateFunc
+import com.irurueta.android.testutils.getPrivateProperty
+import com.irurueta.android.testutils.setPrivateProperty
 import com.irurueta.geometry.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
