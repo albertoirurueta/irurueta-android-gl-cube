@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.publish)
 }
 
-val libraryVersion = "1.1.4"
+val libraryVersion = "1.1.5"
 
 android {
     namespace = "com.irurueta.android.gl.cube"
