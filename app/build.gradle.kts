@@ -16,10 +16,10 @@ android {
 
     defaultConfig {
         applicationId = "com.irurueta.android.gl.cube.app"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 6
-        versionName = "1.1.5"
+        versionName = "1.1.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
