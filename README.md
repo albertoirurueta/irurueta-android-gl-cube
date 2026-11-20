@@ -34,8 +34,8 @@ animated. In the demo above, the text is a plain `TextView` placed behind the cu
 | --- | --- |
 | Language | Kotlin (Java 17 bytecode) |
 | Build tool | Gradle (Kotlin DSL) |
-| Current development version | 1.1.8-SNAPSHOT |
-| Latest release | 1.1.7 |
+| Current development version | 1.2.0-SNAPSHOT |
+| Latest release | 1.1.8 |
 | Platform | Android |
 | Min / compile SDK | minSdk 26, compileSdk 36 |
 | Kotlin / AGP | Kotlin 2.3.10, AGP 9.0.1 |
@@ -57,13 +57,13 @@ The library is published on Maven Central. Add the dependency to your module's b
 Gradle (Groovy DSL):
 
 ```groovy
-implementation 'com.irurueta:irurueta-android-gl-cube:1.1.7'
+implementation 'com.irurueta:irurueta-android-gl-cube:1.1.8'
 ```
 
 Gradle (Kotlin DSL):
 
 ```kotlin
-implementation("com.irurueta:irurueta-android-gl-cube:1.1.7")
+implementation("com.irurueta:irurueta-android-gl-cube:1.1.8")
 ```
 
 ## Usage

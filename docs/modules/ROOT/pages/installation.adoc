@@ -8,7 +8,7 @@ The library is published to Maven Central as an Android library (AAR).
 |===
 |Group ID |`com.irurueta`
 |Artifact ID |`irurueta-android-gl-cube`
-|Latest release |`1.1.7`
+|Latest release |`1.1.8`
 |License |Apache License 2.0
 |===
 
@@ -42,7 +42,7 @@ Then add the dependency to your module's `build.gradle.kts`:
 [source,kotlin]
 ----
 dependencies {
-    implementation("com.irurueta:irurueta-android-gl-cube:1.1.7")
+    implementation("com.irurueta:irurueta-android-gl-cube:1.1.8")
 }
 ----
 
@@ -51,7 +51,7 @@ dependencies {
 [source,groovy]
 ----
 dependencies {
-    implementation 'com.irurueta:irurueta-android-gl-cube:1.1.7'
+    implementation 'com.irurueta:irurueta-android-gl-cube:1.1.8'
 }
 ----
 
@@ -60,7 +60,7 @@ dependencies {
 [source,toml]
 ----
 [versions]
-glCube = "1.1.7"
+glCube = "1.1.8"
 
 [libraries]
 gl-cube = { module = "com.irurueta:irurueta-android-gl-cube", version.ref = "glCube" }
