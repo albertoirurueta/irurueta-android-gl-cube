@@ -23,7 +23,9 @@ NOTE: This documentation was generated with the assistance of AI. Please report 
 
 == Requirements
 
-* JDK 17 or later (CI uses JDK 21; the library targets JVM 17).
+* JDK 21 or later to run the unit tests, the same as CI. The library still targets JVM 17, but some of its
+  transitive dependencies (pulled in by irurueta-android-glutils) are compiled for Java 21, so a JDK 17 runtime
+  fails the tests with `UnsupportedClassVersionError`.
 * Android SDK with platform 36 (set `sdk.dir` in `local.properties` or the `ANDROID_HOME` environment variable).
 * An emulator or device for instrumented tests.
 
