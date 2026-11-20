@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - CI builds run on JDK 21 (the library still targets JVM 17).
 - Updated `irurueta-android-glutils` to 1.1.13 and `irurueta-android-test-utils` to 1.3.3.
+  JVM unit tests that use this library (including Robolectric) now need a JDK 21 runtime, because a transitive
+  dependency of `irurueta-android-glutils` is compiled for Java 21; the library itself still targets JVM 17.
 
 ## [1.1.7] - 2026-03-06
 
