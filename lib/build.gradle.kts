@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.publish)
 }
 
-val libraryVersion = "1.1.7"
+val libraryVersion = "1.1.8-SNAPSHOT"
 
 android {
     namespace = "com.irurueta.android.gl.cube"
@@ -90,7 +90,7 @@ sonar {
 
         property("sonar.coverage.jacoco.xmlReportPaths",
             listOf("build/reports/coverage/androidTest/debug/connected/report.xml",
-                "build/reports/coverage/test/report.xml"))
+                "build/reports/coverage/test/debug/report.xml"))
         property("sonar.java.coveragePlugin", "jacoco")
         property("sonar.junit.reportsPath",
             listOf("build/test-results/testDebugUnitTest",
