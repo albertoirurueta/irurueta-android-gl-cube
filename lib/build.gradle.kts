@@ -162,3 +162,14 @@ mavenPublishing {
         }
     }
 }
+
+dokka {
+    dokkaSourceSets.configureEach {
+        // Dokka 2.3 sees AGP's "release" variant as a second source set over the same files as "androidJvm",
+        // which fails its pre-generation check (https://github.com/Kotlin/dokka/issues/3701). Document the
+        // sources once, through "androidJvm".
+        if (name == "release") {
+            suppress.set(true)
+        }
+    }
+}
