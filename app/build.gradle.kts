@@ -18,8 +18,8 @@ android {
         applicationId = "com.irurueta.android.gl.cube.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 6
-        versionName = "1.1.8-SNAPSHOT"
+        versionCode = 7
+        versionName = "1.2.0-SNAPSHOT"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

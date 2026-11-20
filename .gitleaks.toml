@@ -1,0 +1,11 @@
+# gitleaks configuration (picked up automatically by gitleaks/gitleaks-action in security.yml).
+# Keeps gitleaks' default rules and only adds the allowlist below.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "detect-secrets baseline: stores SHA-1 hashes of audited findings, never the secrets themselves"
+paths = [
+  '''(^|/)\.secrets\.baseline$''',
+]
