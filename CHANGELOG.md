@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.1.8] - 2026-11-20
+
 ### Added
 
 - Antora documentation site with usage guides and code examples.
@@ -85,7 +87,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   matrices.
 - Demo app.
 
-[Unreleased]: https://github.com/albertoirurueta/irurueta-android-gl-cube/compare/1.1.7...HEAD
+[Unreleased]: https://github.com/albertoirurueta/irurueta-android-gl-cube/compare/1.1.8...HEAD
+[1.1.8]: https://github.com/albertoirurueta/irurueta-android-gl-cube/compare/1.1.7...1.1.8
 [1.1.7]: https://github.com/albertoirurueta/irurueta-android-gl-cube/compare/1.1.6...1.1.7
 [1.1.6]: https://github.com/albertoirurueta/irurueta-android-gl-cube/compare/1.1.5...1.1.6
 [1.1.5]: https://github.com/albertoirurueta/irurueta-android-gl-cube/compare/1.1.4...1.1.5
