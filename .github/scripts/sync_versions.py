@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Rewrites version references after a release, for the Sync workflow.
 
-Reads RELEASE_VERSION and NEXT_SNAPSHOT from the environment and updates
+With `--print-next-snapshot`, only prints the development version to open
+after RELEASE_VERSION (see planned_next_snapshot) and exits.
+
+Otherwise reads RELEASE_VERSION and NEXT_SNAPSHOT from the environment and updates
 lib/build.gradle.kts's `val libraryVersion`, app/build.gradle.kts's
 `versionName` (its `versionCode` is only bumped by a real release, never here
 — see iru-android-bump-version's Step 4 for the same rule), README.md,
@@ -113,9 +116,10 @@ def replace_coordinate_versions(text, release_version):
 
 def replace_latest_release_markers(text, release_version):
     """Rewrites "Latest release" values in Markdown/AsciiDoc tables and attributes:
-    `| Latest release | `X` |` (Markdown), `|Latest release |`X`` (AsciiDoc), `:latest-release: X`."""
+    `| Latest release | X |` or `| Latest release | `X` |` (Markdown), `|Latest release |`X`` (AsciiDoc),
+    `:latest-release: X`."""
     text = re.sub(
-        r"(\|\s*Latest release[^|\n]*\|\s*`)" + VERSION + r"(`)",
+        r"(\|\s*Latest release[^|\n]*\|\s*`?)" + VERSION + r"(`?)",
         rf"\g<1>{release_version}\g<2>",
         text,
     )
@@ -153,7 +157,7 @@ def update_readme(release_version, next_snapshot):
         return
     text = path.read_text()
     text = re.sub(
-        r"(\| Current development version \| `)[^`]*(` \|)",
+        r"(\|\s*Current development version\s*\|\s*`?)" + VERSION + r"(`?\s*\|)",
         rf"\g<1>{next_snapshot}\g<2>",
         text,
     )
@@ -188,8 +192,41 @@ def update_antora_pages(release_version, next_snapshot):
             path.write_text(updated)
 
 
+def parse_version(version):
+    """`X.Y.Z` or `X.Y.Z-SNAPSHOT` -> (X, Y, Z), or None if it isn't in that form."""
+    m = re.fullmatch(r"([0-9]+)\.([0-9]+)\.([0-9]+)(?:-SNAPSHOT)?", version)
+    return tuple(int(part) for part in m.groups()) if m else None
+
+
+def planned_next_snapshot(release_version):
+    """The development version to open after `release_version`.
+
+    The release commit records the planned next version in README.md's "Current development version" row
+    (iru-release writes it there when cutting the release). Use it when it is an `X.Y.Z-SNAPSHOT` newer than
+    the release, so a planned minor/major bump survives the sync; otherwise fall back to a patch bump.
+    """
+    release = parse_version(release_version)
+    if release is None or release_version.endswith("-SNAPSHOT"):
+        sys.exit(f"Release version '{release_version}' is not in X.Y.Z form; cannot compute the next snapshot.")
+    patch_bump = f"{release[0]}.{release[1]}.{release[2] + 1}-SNAPSHOT"
+
+    readme = REPO_ROOT / "README.md"
+    if not readme.exists():
+        return patch_bump
+    m = re.search(r"\|\s*Current development version\s*\|\s*`?(" + VERSION + r")`?\s*\|", readme.read_text())
+    if not m or not m.group(1).endswith("-SNAPSHOT"):
+        return patch_bump
+    planned = parse_version(m.group(1))
+    if planned is None or planned <= release:
+        return patch_bump
+    return m.group(1)
+
+
 def main():
     release_version = os.environ["RELEASE_VERSION"]
+    if len(sys.argv) > 1 and sys.argv[1] == "--print-next-snapshot":
+        print(planned_next_snapshot(release_version))
+        return
     next_snapshot = os.environ["NEXT_SNAPSHOT"]
 
     update_lib_module(next_snapshot)

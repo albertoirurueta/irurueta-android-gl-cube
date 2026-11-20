@@ -2,7 +2,8 @@ name: Sync
 
 # After a release is published from main, open a pull request that merges it back into
 # develop and bumps the development -SNAPSHOT version, so develop never has to wait
-# for a manual sync branch.
+# for a manual sync branch. The next version is the one planned in the release's
+# README ("Current development version"), or a patch bump when none is planned.
 on:
   release:
     types: [released]
@@ -22,22 +23,24 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.x'
+
       - name: Compute versions and branch names
         id: versions
         run: |
           set -euo pipefail
           RELEASE_VERSION="${{ github.event.release.tag_name }}"
           RELEASE_VERSION="${RELEASE_VERSION#v}"
+          export RELEASE_VERSION
 
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$RELEASE_VERSION"
-          if [ -z "${MAJOR:-}" ] || [ -z "${MINOR:-}" ] || [ -z "${PATCH:-}" ]; then
-            echo "::error::Release tag '$RELEASE_VERSION' is not in X.Y.Z form; cannot compute the next snapshot."
-            exit 1
-          fi
-
-          NEXT_PATCH=$((PATCH + 1))
-          NEXT_SNAPSHOT="${MAJOR}.${MINOR}.${NEXT_PATCH}-SNAPSHOT"
+          # Uses the planned next version recorded in the released README's "Current development version"
+          # row when it is newer than the release (a planned minor/major bump); otherwise bumps the patch.
+          NEXT_SNAPSHOT="$(python3 .github/scripts/sync_versions.py --print-next-snapshot)"
           SYNC_BRANCH="sync_${RELEASE_VERSION}"
+          echo "::notice::Released ${RELEASE_VERSION}; develop will move to ${NEXT_SNAPSHOT}."
 
           echo "release_version=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
           echo "next_snapshot=$NEXT_SNAPSHOT" >> "$GITHUB_OUTPUT"
@@ -83,12 +86,6 @@ jobs:
             git checkout -B "${SYNC_BRANCH}" "origin/main"
             echo "conflict=true" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Set up Python
-        if: steps.guard.outputs.exists == 'false' && steps.merge.outputs.conflict == 'false'
-        uses: actions/setup-python@v7
-        with:
-          python-version: '3.x'
 
       - name: Bump the development snapshot version
         if: steps.guard.outputs.exists == 'false' && steps.merge.outputs.conflict == 'false'
