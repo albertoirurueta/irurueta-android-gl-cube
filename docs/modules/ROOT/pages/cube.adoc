@@ -1,0 +1,71 @@
+= Cube and colors
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+== Size, position and rotation
+
+The cube is defined in world coordinates, where the y axis points upwards (OpenGL convention). Its size, position
+and rotation can be changed at any time, before or after the surface is created:
+
+[source,kotlin]
+----
+include::example$cubeTransform.kt[]
+----
+
+[cols="1,1,3",options="header"]
+|===
+|Property |Default |Description
+
+|`cubeSize`
+|`CubeRenderer.DEFAULT_CUBE_SIZE` (`1.0f`)
+|Length of the cube edges. Must be zero or positive, otherwise `IllegalArgumentException` is thrown.
+
+|`cubePosition`
+|`(0.0, 0.0, CubeRenderer.DEFAULT_CUBE_DISTANCE)` = `(0, 0, 2)`
+|Position of the cube center, as a `Point3D`.
+
+|`cubeRotation`
+|Identity (`Rotation3D.create()`)
+|Orientation of the cube, as any `Rotation3D` (`Quaternion`, `MatrixRotation3D`, `AxisRotation3D`...).
+|===
+
+TIP: Rotations are applied by reference. If you reuse the same `Quaternion` instance, assign it again to
+`cubeRotation` after modifying it so that a new frame is requested.
+
+== Colors
+
+Each vertex of the cube has a fixed color (green, orange, red, yellow, blue, light blue and magenta) and the faces
+are filled by interpolating them.
+
+[source,kotlin]
+----
+include::example$colors.kt[]
+----
+
+[cols="1,1,3",options="header"]
+|===
+|Property |Default |Description
+
+|`clearColor`
+|`Color.TRANSPARENT`
+|ARGB color used to clear the scene before drawing the cube. Keep it transparent (or translucent) to compose the cube
+with the views behind it.
+
+|`diffuseColor`
+|`Color.rgb(127, 127, 127)`
+|Diffuse color used for lighting. Only taken into account when vertex normals are used.
+|===
+
+== Composing with other views
+
+Because `CubeTextureView` is a `TextureView`, it can be animated and transformed like any other view, for instance
+with `alpha`, `translationX`, `scaleX` or `rotation`, and it respects the drawing order of its parent. This is not
+possible with a `GLSurfaceView`, which is drawn in a separate window.
+
+[source,kotlin]
+----
+cubeView.alpha = 0.5f
+cubeView.animate().translationX(200f).setDuration(1000L).start()
+----
+
+Next: xref:camera.adoc[Camera].
