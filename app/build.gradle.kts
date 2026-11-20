@@ -50,6 +50,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    lint {
+        // SARIF report is uploaded to GitHub code scanning by the CI workflows
+        sarifReport = true
+    }
     buildFeatures {
         compose = true
         buildConfig = true
