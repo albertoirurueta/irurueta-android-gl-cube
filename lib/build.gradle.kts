@@ -76,13 +76,16 @@ sonar {
         property("sonar.organization", "albertoirurueta-github")
         property("sonar.host.url", "https://sonarcloud.io")
 
-        property("sonar.tests", listOf("src/test/java", "src/androidTest/java"))
+        // Absolute paths: the SonarQube plugin (7.3+, AGP 9 support) merges the Android source/test dirs it computes
+        // (absolute) into these, and only deduplicates them against absolute paths. A relative path here would
+        // index the same files twice and fail the analysis ("can't be indexed twice").
+        property("sonar.tests", listOf(file("src/test/java").path, file("src/androidTest/java").path))
         property("sonar.test.inclusions",
             listOf("**/*Test*/**", "src/androidTest/**", "src/test/**"))
         property("sonar.test.exclusions",
             listOf("**/*Test*/**", "src/androidTest/**", "src/test/**"))
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.sources", "src/main/java")
+        property("sonar.sources", file("src/main/java").path)
         property("sonar.exclusions", "**/*Test*/**,*.json,'**/*test*/**,**/.gradle/**,**/R.class")
 
         val libraries = project.android.sdkDirectory.path + "/platforms/android-36/android.jar"
