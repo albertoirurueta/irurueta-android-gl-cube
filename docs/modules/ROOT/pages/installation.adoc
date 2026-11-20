@@ -1,0 +1,92 @@
+= Installation
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+The library is published to Maven Central as an Android library (AAR).
+
+[cols="1,3"]
+|===
+|Group ID |`com.irurueta`
+|Artifact ID |`irurueta-android-gl-cube`
+|Latest release |`1.1.8`
+|License |Apache License 2.0
+|===
+
+== Requirements
+
+* Android `minSdk` 26 (Android 8.0) or later.
+* A device or emulator supporting OpenGL ES 2.0.
+* The library is compiled against SDK 36 with Java/Kotlin JVM target 17.
+
+The library exposes https://github.com/albertoirurueta/irurueta-android-glutils[irurueta-android-glutils] as an `api`
+dependency, so `GLTextureView`, `OpenGlToCameraHelper`, `CameraToDisplayOrientation` and the
+https://github.com/albertoirurueta/irurueta-geometry[irurueta-geometry] types (`PinholeCamera`, `Point3D`,
+`Rotation3D`, `Quaternion`...) are available to your code without declaring them.
+
+== Gradle (Kotlin DSL)
+
+Make sure `mavenCentral()` is among your repositories (in `settings.gradle.kts`):
+
+[source,kotlin]
+----
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+----
+
+Then add the dependency to your module's `build.gradle.kts`:
+
+[source,kotlin]
+----
+dependencies {
+    implementation("com.irurueta:irurueta-android-gl-cube:1.1.8")
+}
+----
+
+== Gradle (Groovy DSL)
+
+[source,groovy]
+----
+dependencies {
+    implementation 'com.irurueta:irurueta-android-gl-cube:1.1.8'
+}
+----
+
+== Version catalog
+
+[source,toml]
+----
+[versions]
+glCube = "1.1.8"
+
+[libraries]
+gl-cube = { module = "com.irurueta:irurueta-android-gl-cube", version.ref = "glCube" }
+----
+
+[source,kotlin]
+----
+dependencies {
+    implementation(libs.gl.cube)
+}
+----
+
+== Snapshots
+
+Development versions built from the `develop` branch are published as `-SNAPSHOT` versions to the Maven Central
+snapshots repository. To use them, add the repository:
+
+[source,kotlin]
+----
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven(url = "https://central.sonatype.com/repository/maven-snapshots/")
+    }
+}
+----
+
+Next: xref:usage.adoc[Usage].

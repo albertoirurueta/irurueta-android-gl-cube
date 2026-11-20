@@ -1,0 +1,11 @@
+= Navigation flows
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+The sample app has a single screen, `MainActivity`, opened from the launcher.
+
+[mermaid]
+....
+flowchart LR
+  launch([App launch]) --> main[MainActivity]
+....

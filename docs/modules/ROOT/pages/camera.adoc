@@ -1,0 +1,97 @@
+= Camera
+:stem: latexmath
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+The scene is rendered from a pinhole camera. `CubeTextureView` uses
+https://github.com/albertoirurueta/irurueta-android-glutils[irurueta-android-glutils] to convert a `PinholeCamera`
+from https://github.com/albertoirurueta/irurueta-geometry[irurueta-geometry] into the OpenGL model, view and
+projection matrices.
+
+IMPORTANT: All the properties in this page require the OpenGL surface to exist. Set them from
+`OnSurfaceChangedListener` or later; otherwise an `IllegalStateException` is thrown. See
+xref:usage.adoc#surface[Waiting for the surface].
+
+== Pinhole camera model
+
+A pinhole camera projects a 3D point stem:[X] into a 2D image point stem:[x] (in homogeneous coordinates) as
+
+[stem]
+++++
+x = K \, R \, [\, I \mid -C \,] \, X,
+\qquad
+K = \begin{bmatrix} f_x & s & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix}
+++++
+
+where stem:[K] holds the intrinsic parameters (focal lengths stem:[f_x, f_y], skewness stem:[s] and principal point
+stem:[c_x, c_y], expressed in pixels), stem:[R] is the camera rotation and stem:[C] is the camera center.
+
+== Setting the whole camera
+
+[source,kotlin]
+----
+include::example$createCamera.kt[]
+----
+
+[source,kotlin]
+----
+cubeView.camera = createCamera(width, height)
+----
+
+Setting `camera` may throw `CameraException` if the camera is numerically unstable (for instance, if its intrinsic
+parameters cannot be decomposed).
+
+== Setting camera parameters individually
+
+Intrinsic parameters, center and rotation can also be changed independently:
+
+[source,kotlin]
+----
+include::example$camera.kt[]
+----
+
+Passing `null` to any of these setters throws `IllegalArgumentException`.
+
+== Clipping planes
+
+Vertices nearer to the camera than the near plane, or further than the far plane, are not drawn. Defaults are
+`CubeRenderer.DEFAULT_NEAR_PLANE` (`0.1f`) and `CubeRenderer.DEFAULT_FAR_PLANE` (`1000.0f`).
+
+[source,kotlin]
+----
+include::example$nearFarPlanes.kt[]
+----
+
+`setValues(nearPlane, farPlane, camera)` updates both clipping planes and the camera at once and requests a single
+frame.
+
+== Camera in Android view coordinates
+
+The `camera` property follows the usual 3D convention where the y axis points upwards. When the cube must be aligned
+with Android view coordinates (where the y axis points downwards), for instance to overlay it on a camera preview,
+set the display `orientation` first. Once the orientation is known (not `ORIENTATION_UNKNOWN`), the view camera
+properties become available:
+
+[source,kotlin]
+----
+include::example$viewCamera.kt[]
+----
+
+[cols="1,3",options="header"]
+|===
+|Property |Description
+
+|`orientation`
+|`CameraToDisplayOrientation` (`ORIENTATION_0_DEGREES`, `ORIENTATION_90_DEGREES`, `ORIENTATION_180_DEGREES`,
+`ORIENTATION_270_DEGREES` or `ORIENTATION_UNKNOWN`, the default). When unknown, the view camera is not used.
+
+|`viewCamera`
+|Camera expressed in view coordinates. Setting a non-null value while the orientation is unknown, or `null` while it
+is known, throws `IllegalArgumentException`.
+
+|`viewCameraIntrinsicParameters`, `viewCameraCenter`, `viewCameraRotation`
+|Individual parameters of the view camera. Setting them while the orientation is unknown throws
+`IllegalStateException`.
+|===
+
+Next: xref:animation.adoc[Animation].

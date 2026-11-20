@@ -1,0 +1,49 @@
+= Animation
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+Since every property setter requests a new frame, animating the cube only requires updating its properties from an
+Android animator. There is no need to switch to continuous rendering.
+
+== Rotating the cube
+
+The following example rotates the cube around its three axes, completing several full turns every 30 seconds:
+
+[source,kotlin]
+----
+include::example$animation.kt[]
+----
+
+== Animating the camera
+
+Camera parameters can be animated in the same way, once the surface exists. The sample app oscillates the camera
+skewness, which produces the shearing effect shown in the demo:
+
+[source,kotlin]
+----
+val skewAnimator = ValueAnimator.ofFloat(-1000f, 1000f).apply {
+    duration = 1000L
+    repeatMode = ValueAnimator.REVERSE
+    repeatCount = ValueAnimator.INFINITE
+    interpolator = AccelerateDecelerateInterpolator()
+    addUpdateListener { animator ->
+        val camera = camera ?: return@addUpdateListener // created in onSurfaceChanged
+        val intrinsics = camera.intrinsicParameters
+        intrinsics.skewness = (animator.animatedValue as Float).toDouble()
+        camera.intrinsicParameters = intrinsics
+        cubeView.camera = camera
+    }
+}
+
+// Play both animations together
+AnimatorSet().apply {
+    playTogether(rotationAnimator, skewAnimator)
+    start()
+}
+----
+
+image::video.gif[Rotating cube with animated camera skewness,width=304]
+
+Remember to pause the animators in `onPause` along with the view, and to resume them in `onResume`.
+
+Next: xref:configuration.adoc[Configuration reference].

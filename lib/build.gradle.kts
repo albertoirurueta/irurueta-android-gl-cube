@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.publish)
 }
 
-val libraryVersion = "1.1.7"
+val libraryVersion = "1.1.8"
 
 android {
     namespace = "com.irurueta.android.gl.cube"
@@ -51,6 +51,10 @@ android {
             isIncludeAndroidResources = true
         }
     }
+    lint {
+        // SARIF report is uploaded to GitHub code scanning by the CI workflows
+        sarifReport = true
+    }
     packaging {
         resources {
             excludes.add("META-INF/LICENSE-notice.md")
@@ -90,7 +94,7 @@ sonar {
 
         property("sonar.coverage.jacoco.xmlReportPaths",
             listOf("build/reports/coverage/androidTest/debug/connected/report.xml",
-                "build/reports/coverage/test/report.xml"))
+                "build/reports/coverage/test/debug/report.xml"))
         property("sonar.java.coveragePlugin", "jacoco")
         property("sonar.junit.reportsPath",
             listOf("build/test-results/testDebugUnitTest",

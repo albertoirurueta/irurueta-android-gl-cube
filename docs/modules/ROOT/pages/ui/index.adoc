@@ -1,0 +1,25 @@
+= User interface
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+The library provides one reusable view, `CubeTextureView`, shown in the sample app's single screen.
+
+image::video.gif[Sample app main screen,width=304]
+
+== Screens
+
+[cols="1,3,2",options="header"]
+|===
+|Name |Purpose |Entry point
+|MainActivity |Sample app screen hosting a `CubeTextureView`. |Launcher activity (`app` module)
+|===
+
+== Components
+
+[cols="1,3,2",options="header"]
+|===
+|Name |Purpose |Used by
+|xref:usage.adoc[CubeTextureView] |Draws a 3D cube using a `GLTextureView`, which allows transparent background and other view effects and animations. |MainActivity
+|===
+
+See xref:ui/navigation.adoc[] for the navigation flows.

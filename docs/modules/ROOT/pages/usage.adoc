@@ -1,0 +1,93 @@
+= Usage
+
+NOTE: This documentation was generated with the assistance of AI. Please report any inaccuracies.
+
+This page shows how to add `CubeTextureView` (package `com.irurueta.android.gl.cube`) to a screen, wait for its
+OpenGL surface, set a camera and handle the activity lifecycle. Every property is listed with its default value in
+the xref:configuration.adoc[Configuration reference].
+
+== Adding the view to a layout
+
+`CubeTextureView` is a regular view, so it can be declared in XML next to any other view. Its background is
+transparent, so views declared before it remain visible behind the cube:
+
+[source,xml]
+----
+include::example$layout.xml[]
+----
+
+== Creating the view in code
+
+`CubeTextureView` has a `@JvmOverloads` constructor `(context, attrs = null, defStyleAttr = 0)`:
+
+[source,kotlin]
+----
+include::example$programmatic.kt[]
+----
+
+[#surface]
+== Waiting for the surface
+
+The OpenGL surface is created asynchronously after the view is attached and laid out. Until then, the view does not
+know its size in pixels, so camera related properties (`camera`, `cameraIntrinsicParameters`, `cameraCenter`,
+`cameraRotation`, `nearPlane`, `farPlane`, `setNearFarPlanes`, `setValues`, `orientation` and the `viewCamera*`
+properties) throw `IllegalStateException` if they are set too early.
+
+Set `onSurfaceChangedListener` and configure the camera there. The listener is called every time the surface is
+created or resized, for instance after a configuration change:
+
+[source,kotlin]
+----
+include::example$surfaceChanged.kt[]
+----
+
+Cube and color properties (`cubeSize`, `cubePosition`, `cubeRotation`, `clearColor` and `diffuseColor`) can be set at
+any time.
+
+[NOTE]
+====
+`onSurfaceChanged` is called from the OpenGL rendering thread. Setting the view properties from there is safe, but
+post to the main thread (for instance with `view.post { ... }`) if you also need to update other views.
+====
+
+== Creating a camera
+
+The scene is rendered from a `PinholeCamera`. A convenient way to build one is to convert an OpenGL projection matrix,
+like the ones provided by ARCore, into pinhole camera intrinsic parameters with `OpenGlToCameraHelper`:
+
+[source,kotlin]
+----
+include::example$createCamera.kt[]
+----
+
+See xref:camera.adoc[Camera] for other ways to define the camera and its pose.
+
+== Handling the lifecycle
+
+As with any `GLTextureView` (or `GLSurfaceView`), forward the activity or fragment lifecycle to the view, so that the
+rendering thread is paused and resumed:
+
+[source,kotlin]
+----
+include::example$lifecycle.kt[]
+----
+
+When the view is detached from its window, the OpenGL program and buffers are released automatically.
+
+== Using the view from Jetpack Compose
+
+`CubeTextureView` is a classic view, so it can be embedded in a composable with `AndroidView`. Composables drawn
+before it remain visible through its transparent background:
+
+[source,kotlin]
+----
+include::example$compose.kt[]
+----
+
+== Rendering model
+
+The view renders only on demand (`RENDER_MODE_WHEN_DIRTY`). Every property setter of `CubeTextureView` requests a new
+frame, so there is no need to call `requestRender()` yourself, and an idle cube does not use the GPU. To animate the
+cube, update its properties from an animator, as described in xref:animation.adoc[Animation].
+
+Next: xref:cube.adoc[Cube and colors].
